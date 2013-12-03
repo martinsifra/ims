@@ -4,8 +4,9 @@
 #include "simlib.h" 
 #include "hardDisk.h"
 #include "ram.h"
+#include "emailCustomer.h"
 
-
+class EmailCustomer;
 
 class Cpu 
 { 
@@ -15,9 +16,9 @@ class Cpu
   ~Cpu(); //destruktor
 
  Store processorsPower;
- Ram * myRam;
+ Ram *myRam;
  HardDisk *myHardDisk;
-
+ void setPowerUnit(EmailCustomer *actualCustom);
 
  private:
     unsigned long numberPower;

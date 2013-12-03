@@ -17,21 +17,14 @@ EmailCustomer::~EmailCustomer()
 
 void EmailCustomer::Behavior()
 { 
-	printf("Budu chtit vzit hlavni proces\n");
-  if(myApache->mainProccessApache.Busy())
-   {
-  	printf("Je zabrany, budu cekat\n");
-   }
-  else
-   {
-   	printf("Beru si ho\n");
-   }
-    
-   Seize(myApache->mainProccessApache);
-   //provadim generovani noveho procesu
-   Wait(50);
-   Release(myApache->mainProccessApache);
-	 
+	//vytvarime novy proces
+	myApache->createNewProccess(this);
+	
+	//pokud je vytvoreny novy proces, alokujeme si vypocetni jednotku
+	myCpu->setPowerUnit(this);
+	
+	//zde budeme resit, co kdo bude chtit delat atd
+  
 }
 
 

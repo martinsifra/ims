@@ -10,6 +10,8 @@
 
 #define ROZLOZENIGENEROVANI 10
 
+class Apache;
+class Cpu;
 
 class EmailCustomer : public Process 
 { 
