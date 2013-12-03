@@ -2,21 +2,25 @@
 #define CPU_H
 
 #include "simlib.h" 
+#include "hardDisk.h"
+#include "ram.h"
 
-#define NUMBERPROCESSORS 1000
+
 
 class Cpu 
 { 
   
  public: 
-  Cpu(); //konstruktor
+  Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk); //konstruktor
   ~Cpu(); //destruktor
 
-  //Store Processors("Procesory", NUMBERPROCESSORS);
+ Store processorsPower;
+ Ram * myRam;
+ HardDisk *myHardDisk;
 
 
  private:
-  
+    unsigned long numberPower;
 
 }; 
 

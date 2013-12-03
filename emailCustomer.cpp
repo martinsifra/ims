@@ -2,12 +2,12 @@
 
 
 //konstruktor
-EmailCustomer::EmailCustomer()
+EmailCustomer::EmailCustomer(Apache *apache, Cpu *cpu)
 {
-
+  myApache = apache;
+  myCpu = cpu;
 
 } 
-
 //destruktor
 EmailCustomer::~EmailCustomer()
 {
@@ -17,24 +17,30 @@ EmailCustomer::~EmailCustomer()
 
 void EmailCustomer::Behavior()
 { 
-  //prichod = Time;  // incoming time 
-  //Seize(Box);       // start of service 
-  Wait(100);        // time of service 
-  //Release(Box);     // end of service 
-  //Table(Time-prichod); // waiting and service time 
-  
-  printf("Jsem zde\n");
-  
-  
+	printf("Budu chtit vzit hlavni proces\n");
+  if(myApache->mainProccessApache.Busy())
+   {
+  	printf("Je zabrany, budu cekat\n");
+   }
+  else
+   {
+   	printf("Beru si ho\n");
+   }
+    
+   Seize(myApache->mainProccessApache);
+   //provadim generovani noveho procesu
+   Wait(50);
+   Release(myApache->mainProccessApache);
+	 
 }
 
 
 
 
-GeneratorEmail::GeneratorEmail()
+GeneratorEmail::GeneratorEmail(Apache *apache, Cpu *cpu)
 {
-
-
+  myApache = apache;
+  myCpu = cpu;
 
 }
 
@@ -49,8 +55,8 @@ GeneratorEmail::~GeneratorEmail()
 void GeneratorEmail::Behavior()
 { // --- behavior specification --- 
   
-  (new EmailCustomer)->Activate(); // novy email customer
-  Activate(Time+Exponential(10)); // zde se aktivuje
+  (new EmailCustomer(myApache, myCpu))->Activate(); // novy email customer
+  Activate(Time+Exponential(ROZLOZENIGENEROVANI)); // zde se aktivuje
 
   
   }

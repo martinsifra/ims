@@ -4,13 +4,18 @@
 #include "simlib.h" 
 #include <stdio.h>
 #include <iostream>
+//#include "global.h"
+#include "cpu.h"
+#include "apache.h"
+
+#define ROZLOZENIGENEROVANI 10
 
 
 class EmailCustomer : public Process 
 { 
   
  public: 
-  EmailCustomer(); //konstruktor
+  EmailCustomer(Apache *apache, Cpu *cpu); //konstruktor
   ~EmailCustomer(); //destruktor
 
 
@@ -19,7 +24,8 @@ class EmailCustomer : public Process
 
 
  private:
-
+   Cpu *myCpu;
+   Apache *myApache;
 
 }; 
 
@@ -27,12 +33,14 @@ class EmailCustomer : public Process
 class GeneratorEmail : public Event
 {
 public:
-	GeneratorEmail();
+	GeneratorEmail(Apache *apache, Cpu *cpu);
 	~GeneratorEmail();
 
-	EmailCustomer * muj;
 
+private:
 	void Behavior();
+	Cpu *myCpu;
+    Apache *myApache;
 };
 
 #endif //EMAILCUSTOMER_H

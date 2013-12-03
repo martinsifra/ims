@@ -2,6 +2,7 @@
 #define HARDDISK_H
 
 #include "simlib.h" 
+//#include "global.h"
 
 
 class HardDisk 
@@ -13,6 +14,9 @@ class HardDisk
 
 
  private:
+	 int accessTime;
+	 int capacity;
+	 
   
 
 }; 

@@ -2,6 +2,7 @@
 #define RAM_H
 
 #include "simlib.h" 
+//#include "global.h"
 
 
 class Ram 
