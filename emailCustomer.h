@@ -23,11 +23,11 @@ class EmailCustomer : public Process
 
   double prichod;    // atribute of each customer 
   void Behavior();    // --- behavoir specification --- 
-
+  Cpu *myCpu;
+  Apache *myApache;
 
  private:
-   Cpu *myCpu;
-   Apache *myApache;
+   
 
 }; 
 

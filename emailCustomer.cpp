@@ -17,6 +17,7 @@ EmailCustomer::~EmailCustomer()
 
 void EmailCustomer::Behavior()
 { 
+	prichod = Time;
 	//vytvarime novy proces
 	myApache->createNewProccess(this);
 	

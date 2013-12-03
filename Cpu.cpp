@@ -1,12 +1,13 @@
 #include "cpu.h"
 
-Cpu::Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk)
+Cpu::Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable)
 {
 
 	numberPower = countCore * countProccessors;
 	processorsPower.SetCapacity(numberPower);
 	myHardDisk = hardDisk;
 	myRam = ram;	
+	hist = myTable;
 }
 
 Cpu::~Cpu()

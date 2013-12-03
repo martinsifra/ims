@@ -14,21 +14,27 @@
 
 int main()
 {
-  
+  Histogram hist("Table",0,25,20);
   //to budeme resit nejakou konstantou od - do
-  Init(0,1000); 
+	SetOutput("model.txt");
+  
    
   //zde budeme nastavovat velikost HDD, pristupovou dobu, atd. HDD
 	HardDisk myHardDisk;
 	//zde budeme nastavovat parametry RAM
 	Ram myRam;
 	//pameti a ostatni budou ulozeny v procesoru
-  Cpu myCPU(POCETJADER, POCETPROCESORU, &myRam ,&myHardDisk);
+  Cpu myCPU(POCETJADER, POCETPROCESORU, &myRam ,&myHardDisk, &hist);
   Apache myApache(MAXPROCESUAPACHE);
-
+  
+	Init(0,1000); 
 
   (new GeneratorEmail(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
    Run(); 
-   
+   myApache.mainProccessApache.Output();
+	 myApache.proccess.Output();
+	 
+	 myCPU.processorsPower.Output();
+	 hist.Output();
  return 0;
 }

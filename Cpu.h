@@ -12,13 +12,14 @@ class Cpu
 { 
   
  public: 
-  Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk); //konstruktor
+  Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable); //konstruktor
   ~Cpu(); //destruktor
 
  Store processorsPower;
  Ram *myRam;
  HardDisk *myHardDisk;
  void setPowerUnit(EmailCustomer *actualCustom);
+ Histogram *hist;
 
  private:
     unsigned long numberPower;
