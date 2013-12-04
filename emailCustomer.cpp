@@ -19,7 +19,7 @@ void EmailCustomer::Behavior()
 { 
 	prichod = Time;
 	//vytvarime novy proces
-	myApache->createNewProccess(this);
+	myApache->createNewEmailProccess(this);
 	
 	//pokud je vytvoreny novy proces, alokujeme si vypocetni jednotku
 	myCpu->setPowerUnit(this);

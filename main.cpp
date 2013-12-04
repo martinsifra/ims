@@ -1,6 +1,8 @@
 #include "simlib.h" 
 //#include "global.h"
 #include "emailCustomer.h"
+#include "ftpCustomer.h"
+#include "streamCustomer.h"
 #include "cpu.h"
 #include "apache.h"
 #include "hardDisk.h"
@@ -30,6 +32,8 @@ int main()
 	Init(0,1000); 
 
   (new GeneratorEmail(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
+	(new GeneratorFtp(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
+	(new GeneratorStream(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
    Run(); 
    myApache.mainProccessApache.Output();
 	 myApache.proccess.Output();

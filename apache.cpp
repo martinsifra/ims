@@ -7,26 +7,55 @@ Apache::Apache(int countProccess)
 	proccess.SetCapacity(maxCreateProccess);
 
 }
-
+//-----------------------------------------------------------
 Apache::~Apache()
 {
 
 
 }
-
-void Apache::createNewProccess(EmailCustomer *actualCust)
+//----------------------------------------------------------
+void Apache::createNewEmailProccess(EmailCustomer *actualECust)
 {
-	printf("Budu chtit vzit hlavni proces\n");
+	printf("Budu chtit vzit hlavni proces - EMAIL\n");
   
 	//zabereme si hlavni proccess
-	actualCust->Seize(mainProccessApache);
-	actualCust->Enter(actualCust->myCpu->processorsPower, 1);
+	actualECust->Seize(mainProccessApache);
+	actualECust->Enter(actualECust->myCpu->processorsPower, 1);
 	//provadim generovani noveho procesu
-	actualCust->Wait(50);
+	actualECust->Wait(50);
 	
-	actualCust->Leave(actualCust->myCpu->processorsPower, 1);
-	actualCust->Release(mainProccessApache);
-	double tmpPrichod = actualCust->prichod;
-	(*actualCust->myCpu->hist)(Time-tmpPrichod);
-	return;
+	actualECust->Leave(actualECust->myCpu->processorsPower, 1);
+	actualECust->Release(mainProccessApache);
+	(*actualECust->myCpu->hist)(Time- (actualECust->prichod));
+}
+//---------------------------------------------------------
+void Apache::createNewFtpProccess(FtpCustomer *actualFCust)
+{
+	printf("Budu chtit vzit hlavni proces - FTP\n");
+  
+	//zabereme si hlavni proccess
+	actualFCust->Seize(mainProccessApache);
+	actualFCust->Enter(actualFCust->myCpu->processorsPower, 1);
+	//provadim generovani noveho procesu
+	actualFCust->Wait(50);
+	
+	actualFCust->Leave(actualFCust->myCpu->processorsPower, 1);
+	actualFCust->Release(mainProccessApache);
+	(*actualFCust->myCpu->hist)(Time- (actualFCust->prichod));
+}
+
+//---------------------------------------------------------------
+void Apache::createNewStreamProccess(StreamCustomer *actualSCust)
+{
+	printf("Budu chtit vzit hlavni proces - STREAM\n");
+  
+	//zabereme si hlavni proccess
+	actualSCust->Seize(mainProccessApache);
+	actualSCust->Enter(actualSCust->myCpu->processorsPower, 1);
+	//provadim generovani noveho procesu
+	actualSCust->Wait(50);
+	
+	actualSCust->Leave(actualSCust->myCpu->processorsPower, 1);
+	actualSCust->Release(mainProccessApache);
+	(*actualSCust->myCpu->hist)(Time- (actualSCust->prichod));
 }
