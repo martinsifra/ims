@@ -28,6 +28,10 @@ class FtpCustomer : public Process
   Cpu *myCpu;
   Apache *myApache;
 	
+	unsigned long headerSize;
+	void parseHeaderReq();
+	void findReqFile();
+	
  private:
 	 
 

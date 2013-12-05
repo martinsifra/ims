@@ -4,21 +4,23 @@
 #include "simlib.h" 
 //#include "global.h"
 
+class HardDisk { 
+public:
+	HardDisk(); //konstruktor
+	~HardDisk(); //destruktor
+	
+	Store numberDisc;
+	double timeReadHardisk(unsigned long sizeFile);
+	double timeWriteHardisk(unsigned long sizeFile);
 
-class HardDisk 
-{ 
-  
- public: 
-  HardDisk(); //konstruktor
-  ~HardDisk(); //destruktor
+private:
+	unsigned long accessTime;
+	unsigned long capacity;
+	unsigned long speedOfRead;
+	unsigned long speedOfWrite;
 
 
- private:
-	 int accessTime;
-	 int capacity;
-	 
-  
 
-}; 
+};
 
 #endif //HARDDISK_H

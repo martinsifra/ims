@@ -11,9 +11,16 @@ class Ram
  public: 
   Ram(); //konstruktor
   ~Ram(); //destruktor
-
+   
+	unsigned long accessTime;
+	unsigned long frequency;
+	unsigned long cyclePerByte;
+	
+	double timeReadRam(unsigned long sizeFile);
+	
 
  private:
+	unsigned long speedOfRead;
   
 
 }; 

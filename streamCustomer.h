@@ -23,7 +23,8 @@ public:
 	void Behavior(); // --- behavoir specification --- 
 	Cpu *myCpu;
 	Apache *myApache;
-
+	unsigned long headerSize;
+	
 private:
 
 };

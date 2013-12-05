@@ -1,0 +1,30 @@
+//CPU
+processor = 10
+core = 20
+frequency = 15000
+cyclePerByte = 150
+maxCyclePerByte = 1000
+
+//RAM
+accessTime = 100
+frequency = 100
+speedOfRead = 50
+cyclePerByte = 500
+
+//HDD
+accessTime =
+capacity = 
+speedOfRead =
+speedOfWrite =
+
+//EMAIL
+generovani = 
+headerSize = 
+listEmailSize = 
+oneEmailSize = 
+attachFilesSize = 
+
+
+//APACHE
+timeCreateNewProcess = 
+

@@ -35,10 +35,10 @@ int main()
 	(new GeneratorFtp(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
 	(new GeneratorStream(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
    Run(); 
-   myApache.mainProccessApache.Output();
-	 myApache.proccess.Output();
+   //myApache.mainProccessApache.Output();
+	 //myApache.proccess.Output();
 	 
-	 myCPU.processorsPower.Output();
+	 //myCPU.processorsPower.Output();
 	 hist.Output();
  return 0;
 }

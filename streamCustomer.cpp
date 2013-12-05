@@ -25,6 +25,8 @@ void StreamCustomer::Behavior()
 	prichod = Time;
 	//vytvarime novy proces
 	myApache->createNewStreamProccess(this);
+	
+	//
 
 
 }

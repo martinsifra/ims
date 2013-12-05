@@ -8,6 +8,7 @@
 #include "cpu.h"
 #include "apache.h"
 
+
 #define ROZLOZENIGENEROVANI 10
 
 class Apache;
@@ -25,9 +26,16 @@ class EmailCustomer : public Process
   void Behavior();    // --- behavoir specification --- 
   Cpu *myCpu;
   Apache *myApache;
+	//v B
+	unsigned long headerSize;
+	
 
  private:
-   
+	 void parseHeaderReq();
+	 void emailAction();
+	 void viewListEmail(); 
+	 void viewEmail();
+	 void actionInEmail();
 
 }; 
 

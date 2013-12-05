@@ -5,25 +5,45 @@
 #include "hardDisk.h"
 #include "ram.h"
 #include "emailCustomer.h"
+#include <stdlib.h>
 
 class EmailCustomer;
+class FtpCustomer;
+class StreamCustomer;
 
-class Cpu 
-{ 
-  
- public: 
-  Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable); //konstruktor
-  ~Cpu(); //destruktor
+class Cpu { 
+public:
+	Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable); //konstruktor
+	~Cpu(); //destruktor
 
- Store processorsPower;
- Ram *myRam;
- HardDisk *myHardDisk;
- void setPowerUnit(EmailCustomer *actualCustom);
- Histogram *hist;
+	Store processorsPower;
+	Ram *myRam;
+	HardDisk *myHardDisk;
+	//void parseHeaderReq(EmailCustomer *actualECust);
+	Histogram *hist;
+	double countTime(unsigned long fileSize);
+	double cacheCountTime(unsigned long fileSize);
+	double countTimeRead(unsigned long fileSize, int *isHDD);
+	double countTimeWrite(unsigned long fileSize);
+	int myRandValue(unsigned long myMod, int plus);
 
- private:
-    unsigned long numberPower;
+	void emailCustomerRead(EmailCustomer *actualCust, unsigned long size);
+	void emailCustomerWrite(EmailCustomer *actualCust, unsigned long size);
+	void ftpCustomerRead(FtpCustomer *actualCust, unsigned long size);
+	void ftpCustomerWrite(FtpCustomer *actualCust, unsigned long size);
+	void streamCustomerRead(StreamCustomer *actualCust, unsigned long size);
+	void streamCustomerWrite(StreamCustomer *actualCust, unsigned long size);
 
-}; 
+	unsigned long numberRound(unsigned long waitTime, double *lastRound);
+	unsigned long maxCyclePerRound;
+
+private:
+	unsigned long numberPower;
+	unsigned long frequency;
+	unsigned long cyclePerByte;
+
+
+
+};
 
 #endif //CPU_H
