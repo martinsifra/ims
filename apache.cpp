@@ -16,51 +16,81 @@ Apache::~Apache()
 }
 //----------------------------------------------------------
 
-void Apache::createNewEmailProccess(EmailCustomer *actualECust)
+void Apache::createNewEmailProccess(EmailCustomer *actualCust)
 {
 	printf("Jsem EMAIL zakaznik!!\n");
 
-	//zabereme si hlavni proccess
-	actualECust->Seize(mainProccessApache);
-	printf("Zabral jsem si apache - hlavni \n");
-	actualECust->Enter(actualECust->myCpu->processorsPower, 1);
-	//provadim generovani noveho procesu
-	actualECust->Wait(10);
+	double lastRound;
+	unsigned long round = actualCust->myCpu->numberRound(actualCust->myCpu->countTime(actualCust->myCpu->myPar->timeCreateNewProcess), &lastRound);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->Enter(actualCust->myCpu->processorsPower, 1);
+		actualCust->Seize(mainProccessApache);
+		//provadim zpracovani hlavicky pozadavku
+		if (i != 0)
+		{
+			actualCust->Wait((double) actualCust->myCpu->maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Release(mainProccessApache);
+		actualCust->Leave(actualCust->myCpu->processorsPower, 1);
+	}
+	//(*actualCust->myCpu->hist)(Time- (actualCust->prichod));
 
-	actualECust->Leave(actualECust->myCpu->processorsPower, 1);
-	actualECust->Release(mainProccessApache);
-	//(*actualECust->myCpu->hist)(Time- (actualECust->prichod));
 }
 //---------------------------------------------------------
 
-void Apache::createNewFtpProccess(FtpCustomer *actualFCust)
+void Apache::createNewFtpProccess(FtpCustomer *actualCust)
 {
 	printf("Jsem FTP zakaznik!!!\n");
 
-	//zabereme si hlavni proccess
-	actualFCust->Seize(mainProccessApache);
-	actualFCust->Enter(actualFCust->myCpu->processorsPower, 1);
-	//provadim generovani noveho procesu
-	actualFCust->Wait(50);
-
-	actualFCust->Leave(actualFCust->myCpu->processorsPower, 1);
-	actualFCust->Release(mainProccessApache);
-	(*actualFCust->myCpu->hist)(Time - (actualFCust->prichod));
+	double lastRound;
+	unsigned long round = actualCust->myCpu->numberRound(actualCust->myCpu->countTime(actualCust->myCpu->myPar->timeCreateNewProcess), &lastRound);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->Enter(actualCust->myCpu->processorsPower, 1);
+		actualCust->Seize(mainProccessApache);
+		//provadim zpracovani hlavicky pozadavku
+		if (i != 0)
+		{
+			actualCust->Wait((double) actualCust->myCpu->maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Release(mainProccessApache);
+		actualCust->Leave(actualCust->myCpu->processorsPower, 1);
+	}
+	//(*actualCust->myCpu->hist)(Time- (actualCust->prichod));
 }
 
 //---------------------------------------------------------------
 
-void Apache::createNewStreamProccess(StreamCustomer *actualSCust)
+void Apache::createNewStreamProccess(StreamCustomer *actualCust)
 {
-	printf("Jsem stream zakaznik!!\n");
+	printf("Jsem FTP zakaznik!!!\n");
 
-	//zabereme si hlavni proccess
-	actualSCust->Seize(mainProccessApache);
-	actualSCust->Enter(actualSCust->myCpu->processorsPower, 1);
-	//provadim generovani noveho procesu
-	actualSCust->Wait(50);
-
-	actualSCust->Leave(actualSCust->myCpu->processorsPower, 1);
-	actualSCust->Release(mainProccessApache);
-	(*actualSCust->myCpu->hist)(Time - (actualSCust->prichod));
+	double lastRound;
+	unsigned long round = actualCust->myCpu->numberRound(actualCust->myCpu->countTime(actualCust->myCpu->myPar->timeCreateNewProcess), &lastRound);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->Enter(actualCust->myCpu->processorsPower, 1);
+		actualCust->Seize(mainProccessApache);
+		//provadim zpracovani hlavicky pozadavku
+		if (i != 0)
+		{
+			actualCust->Wait((double) actualCust->myCpu->maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Release(mainProccessApache);
+		actualCust->Leave(actualCust->myCpu->processorsPower, 1);
+	}
+	//(*actualCust->myCpu->hist)(Time- (actualCust->prichod));
 }

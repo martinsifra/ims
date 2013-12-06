@@ -13,6 +13,7 @@
 
 class Apache;
 class Cpu;
+class ParseParam;
 
 class EmailCustomer : public Process 
 { 
@@ -28,10 +29,10 @@ class EmailCustomer : public Process
   Apache *myApache;
 	//v B
 	unsigned long headerSize;
-	
+	void parseHeaderReq();
 
  private:
-	 void parseHeaderReq();
+	 
 	 void emailAction();
 	 void viewListEmail(); 
 	 void viewEmail();

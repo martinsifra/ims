@@ -1,29 +1,33 @@
 #include "hardDisk.h"
 
-
-HardDisk::HardDisk()
+HardDisk::HardDisk(
+				unsigned long accessTimePar,
+				unsigned long capacityPar,
+				unsigned long speedOfReadPar,
+				unsigned long speedOfWritePar,
+				unsigned long countHddpar
+				)
 {
-	accessTime = 100;
-	//capacity = ;
-	speedOfRead = 4000;
-	speedOfWrite = 2000;
-	numberDisc.SetCapacity(20);
+	accessTime = accessTimePar;
+	capacity = capacityPar;
+	speedOfRead = speedOfReadPar;
+	speedOfWrite = speedOfWritePar;
+	numberDisc.SetCapacity(countHddpar);
 }
 
 HardDisk::~HardDisk()
 {
-	
-}
 
+}
 
 double HardDisk::timeReadHardisk(unsigned long sizeFile)
 {
-  return ((sizeFile/speedOfRead) + accessTime);	
-	
+	return ((sizeFile / speedOfRead) + accessTime);
+
 }
 
 double HardDisk::timeWriteHardisk(unsigned long sizeFile)
 {
-  return ((sizeFile/speedOfWrite) + accessTime);	
-	
+	return ((sizeFile / speedOfWrite) + accessTime);
+
 }

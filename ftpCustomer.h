@@ -31,7 +31,8 @@ class FtpCustomer : public Process
 	unsigned long headerSize;
 	void parseHeaderReq();
 	void findReqFile();
-	
+	void uploadFile();
+	void downloadFile();
  private:
 	 
 

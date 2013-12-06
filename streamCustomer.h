@@ -24,6 +24,8 @@ public:
 	Cpu *myCpu;
 	Apache *myApache;
 	unsigned long headerSize;
+	void watchVideo();
+	void parseHeaderReq();
 	
 private:
 

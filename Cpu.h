@@ -6,19 +6,23 @@
 #include "ram.h"
 #include "emailCustomer.h"
 #include <stdlib.h>
+#include "parseParam.h"
 
 class EmailCustomer;
 class FtpCustomer;
 class StreamCustomer;
+class ParseParam;
 
 class Cpu { 
 public:
-	Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable); //konstruktor
+	Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable,
+					ParseParam *par); //konstruktor
 	~Cpu(); //destruktor
 
 	Store processorsPower;
 	Ram *myRam;
 	HardDisk *myHardDisk;
+	ParseParam * myPar;
 	//void parseHeaderReq(EmailCustomer *actualECust);
 	Histogram *hist;
 	double countTime(unsigned long fileSize);
@@ -26,6 +30,7 @@ public:
 	double countTimeRead(unsigned long fileSize, int *isHDD);
 	double countTimeWrite(unsigned long fileSize);
 	int myRandValue(unsigned long myMod, int plus);
+	
 
 	void emailCustomerRead(EmailCustomer *actualCust, unsigned long size);
 	void emailCustomerWrite(EmailCustomer *actualCust, unsigned long size);

@@ -1,16 +1,18 @@
 #include "cpu.h"
 
-Cpu::Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable)
+Cpu::Cpu(int countCore, int countProccessors, Ram *ram, HardDisk *hardDisk, Histogram *myTable,
+				ParseParam *par)
 {
-
+   
 	numberPower = countCore * countProccessors;
 	processorsPower.SetCapacity(numberPower);
 	myHardDisk = hardDisk;
 	myRam = ram;
 	hist = myTable;
-	maxCyclePerRound = 100000;
-	frequency = 3000000000;
-	cyclePerByte = 1000000;
+	myPar = par;
+	maxCyclePerRound = par->maxCyclePerRoundCpu;
+	frequency = par->frequencyCpu;
+	cyclePerByte = par->cyclePerByteCpu;
 	//maxCyclePerRound;
 }
 //-----------------------------------------------------------
@@ -77,127 +79,198 @@ int Cpu::myRandValue(unsigned long myMod, int plus)
 
 void Cpu::emailCustomerRead(EmailCustomer *actualCust, unsigned long size)
 {
-	int isHDD, myTime;
-
+	int isHDD;
+	double lastRound;
 	isHDD = 0;
-	actualCust->Enter(processorsPower, 1);
 
-	//kolik ma jeden email?
-	myTime = countTimeRead(size, &isHDD);
-	if (isHDD)
-	{
-		actualCust->Enter(myHardDisk->numberDisc, 1);
-	}
-	actualCust->Wait(myTime);
+	unsigned long round = numberRound((countTimeRead(size, &isHDD)), &lastRound);
 
-	if (isHDD)
+	for (unsigned long i = round; i >= 0; i--)
 	{
-		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Enter(processorsPower, 1);
+
+		//kolik ma jeden email?
+		if (isHDD)
+		{
+			actualCust->Enter(myHardDisk->numberDisc, 1);
+		}
+
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+
+		if (isHDD)
+		{
+			actualCust->Leave(myHardDisk->numberDisc, 1);
+		}
+		actualCust->Leave(processorsPower, 1);
 	}
-	actualCust->Leave(processorsPower, 1);
 
 }
 //------------------------------------------------------------
 
 void Cpu::emailCustomerWrite(EmailCustomer *actualCust, unsigned long size)
 {
-	double myTime;
+	double lastRound;
 
-	actualCust->Enter(processorsPower, 1);
+	unsigned long round = numberRound((countTimeWrite(size)), &lastRound);
 
-	//kolik ma jeden email?
-	myTime = countTimeWrite(size);
-	actualCust->Enter(myHardDisk->numberDisc, 1);
-	actualCust->Wait(myTime);
-	actualCust->Leave(myHardDisk->numberDisc, 1);
-	actualCust->Leave(processorsPower, 1);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->parseHeaderReq();
+		actualCust->Enter(processorsPower, 1);
 
+		actualCust->Enter(myHardDisk->numberDisc, 1);
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Leave(processorsPower, 1);
+	}
 }
 //------------------------------------------------------------
 
 void Cpu::ftpCustomerRead(FtpCustomer *actualCust, unsigned long size)
 {
-	int isHDD, myTime;
-
+	int isHDD;
+	double lastRound;
 	isHDD = 0;
-	actualCust->Enter(processorsPower, 1);
 
-	//kolik ma jeden email?
-	myTime = countTimeRead(size, &isHDD);
-	if (isHDD)
-	{
-		actualCust->Enter(myHardDisk->numberDisc, 1);
-	}
-	actualCust->Wait(myTime);
+	unsigned long round = numberRound((countTimeRead(size, &isHDD)), &lastRound);
 
-	if (isHDD)
+	for (unsigned long i = round; i >= 0; i--)
 	{
-		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Enter(processorsPower, 1);
+
+		//kolik ma jeden email?
+		if (isHDD)
+		{
+			actualCust->Enter(myHardDisk->numberDisc, 1);
+		}
+
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+
+		if (isHDD)
+		{
+			actualCust->Leave(myHardDisk->numberDisc, 1);
+		}
+		actualCust->Leave(processorsPower, 1);
 	}
-	actualCust->Leave(processorsPower, 1);
 
 }
 //------------------------------------------------------------
 
 void Cpu::ftpCustomerWrite(FtpCustomer *actualCust, unsigned long size)
 {
-	double myTime;
+	double lastRound;
 
-	actualCust->Enter(processorsPower, 1);
+	unsigned long round = numberRound((countTimeWrite(size)), &lastRound);
 
-	//prumerny soubor?
-	myTime = countTimeWrite(size);
-	actualCust->Enter(myHardDisk->numberDisc, 1);
-	actualCust->Wait(myTime);
-	actualCust->Leave(myHardDisk->numberDisc, 1);
-	actualCust->Leave(processorsPower, 1);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->parseHeaderReq();
+		actualCust->Enter(processorsPower, 1);
+
+		actualCust->Enter(myHardDisk->numberDisc, 1);
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Leave(processorsPower, 1);
+	}
 
 }
 //------------------------------------------------------------
 
 void Cpu::streamCustomerRead(StreamCustomer *actualCust, unsigned long size)
 {
-	int isHDD, myTime;
-
+	int isHDD;
+	double lastRound;
 	isHDD = 0;
-	actualCust->Enter(processorsPower, 1);
 
-	//kolik ma jeden email?
-	myTime = countTimeRead(size, &isHDD);
-	if (isHDD)
-	{
-		actualCust->Enter(myHardDisk->numberDisc, 1);
-	}
-	actualCust->Wait(myTime);
+	unsigned long round = numberRound((countTimeRead(size, &isHDD)), &lastRound);
 
-	if (isHDD)
+	for (unsigned long i = round; i >= 0; i--)
 	{
-		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Enter(processorsPower, 1);
+
+		//kolik ma jeden email?
+		if (isHDD)
+		{
+			actualCust->Enter(myHardDisk->numberDisc, 1);
+		}
+
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+
+		if (isHDD)
+		{
+			actualCust->Leave(myHardDisk->numberDisc, 1);
+		}
+		actualCust->Leave(processorsPower, 1);
 	}
-	actualCust->Leave(processorsPower, 1);
 
 }
 //------------------------------------------------------------
 
 void Cpu::streamCustomerWrite(StreamCustomer *actualCust, unsigned long size)
 {
-	double myTime;
+	double lastRound;
 
-	actualCust->Enter(processorsPower, 1);
+	unsigned long round = numberRound((countTimeWrite(size)), &lastRound);
 
-	//prumerny soubor?
-	myTime = countTimeWrite(size);
-	actualCust->Enter(myHardDisk->numberDisc, 1);
-	actualCust->Wait(myTime);
-	actualCust->Leave(myHardDisk->numberDisc, 1);
-	actualCust->Leave(processorsPower, 1);
+	for (unsigned long i = round; i >= 0; i--)
+	{
+		actualCust->parseHeaderReq();
+		actualCust->Enter(processorsPower, 1);
+
+		actualCust->Enter(myHardDisk->numberDisc, 1);
+		if (i != 0)
+		{
+			actualCust->Wait((double) maxCyclePerRound);
+		}
+		else
+		{
+			actualCust->Wait(lastRound);
+		}
+		actualCust->Leave(myHardDisk->numberDisc, 1);
+		actualCust->Leave(processorsPower, 1);
+	}
 
 }
 
 //------------------------------------------------------------
 
 unsigned long Cpu::numberRound(unsigned long waitTime, double *lastRound)
-{ 
+{
 	*lastRound = (double) (waitTime % maxCyclePerRound);
-  return waitTime / maxCyclePerRound;
+	return waitTime / maxCyclePerRound;
 }

@@ -6,7 +6,7 @@ EmailCustomer::EmailCustomer(Apache *apache, Cpu *cpu)
 	myCpu = cpu;
 
 	//zde se priradi nahodna velikost hlavicky
-	headerSize = 800;
+	headerSize = myCpu->myPar->sizeHeaderHttp;
 
 }
 
@@ -30,7 +30,7 @@ void EmailCustomer::parseHeaderReq()
 		//provadim zpracovani hlavicky pozadavku
 		if (i != 0)
 		{
-			Wait((double)myCpu->maxCyclePerRound);
+			Wait((double) myCpu->maxCyclePerRound);
 		}
 		else
 		{
@@ -44,16 +44,16 @@ void EmailCustomer::parseHeaderReq()
 void EmailCustomer::emailAction()
 {
 	printf("Vystavuji seznam emailu\n");
-	
+
 	double lastRound;
-	unsigned long round = myCpu->numberRound(myCpu->countTime(56000), &lastRound);
+	unsigned long round = myCpu->numberRound(myCpu->countTime(myCpu->myPar->listEmailSizeEmail), &lastRound);
 	for (unsigned long i = round; i >= 0; i--)
 	{
 		Enter(myCpu->processorsPower, 1);
 		//provadim zpracovani hlavicky pozadavku
 		if (i != 0)
 		{
-			Wait((double)myCpu->maxCyclePerRound);
+			Wait((double) myCpu->maxCyclePerRound);
 		}
 		else
 		{
@@ -66,9 +66,9 @@ void EmailCustomer::emailAction()
 //---------------------------------------------
 
 void EmailCustomer::viewListEmail()
-{ 
+{
 	//listEmailSize
-	myCpu->emailCustomerRead(this, 56000);
+	myCpu->emailCustomerRead(this, myCpu->myPar->listEmailSizeEmail);
 
 }
 //---------------------------------------------
@@ -94,10 +94,12 @@ void EmailCustomer::actionInEmail()
 	//vygenerujeme, kolik emailu budeme cist
 	int numberEmails = myCpu->myRandValue(5, 1);
 	//zde bude velikost 1 emailu, ktery se bude stahovat
-	unsigned long size = 5000;
+	unsigned long size = myCpu->myPar->oneEmailSizeEmail;
 
 	for (int i = 1; i <= numberEmails; i++)
 	{
+		parseHeaderReq();
+
 		myCpu->emailCustomerRead(this, size);
 
 		//bude tam priloha?
@@ -107,9 +109,11 @@ void EmailCustomer::actionInEmail()
 			//budeme ji chtit stahovat? 
 			if (myCpu->myRandValue(100, 1) > 10)
 			{
+				//zpracuji hlavicku pozadavku
+				parseHeaderReq();
 				//zde musime uvest velikost prumerne prilohy
 				//atachFileSizes
-				size = 20000;
+				size = myCpu->myPar->attachFilesSizeEmail;
 				myCpu->emailCustomerRead(this, size);
 			}
 		}
@@ -118,25 +122,27 @@ void EmailCustomer::actionInEmail()
 		//odpovidame nebo piseme novy email
 		if (myCpu->myRandValue(100, 1) <= 90)
 		{
+			parseHeaderReq();
 			if (myCpu->myRandValue(100, 1) <= 10)
 			{
 				//email + priloha = generovat
-				size = 1000 + 5000;
+				size = myCpu->myPar->oneEmailSizeEmail + myCpu->myPar->attachFilesSizeEmail;
 				myCpu->emailCustomerWrite(this, size);
 			}
 			else
 			{
-				size = 1000;
+				size = myCpu->myPar->oneEmailSizeEmail;
 				myCpu->emailCustomerWrite(this, size);
 			}
 		}
 
 		//mazeme email
+		parseHeaderReq();
 		if (myCpu->myRandValue(100, 1) <= 10)
 		{
 
-			size = 100;
-			myCpu->emailCustomerRead(this, size);
+			size = myCpu->myPar->oneEmailSizeEmail;
+			myCpu->emailCustomerWrite(this, size);
 		}
 	}
 
@@ -161,7 +167,7 @@ void EmailCustomer::Behavior()
 	//bude si uzivatel zobrazovat nejake emaily
 	viewEmail();
 
-	
+
 	//precetly jsme emaily, odeslaly a tedka namodelovat sit kdyztak
 }
 
@@ -193,7 +199,7 @@ void GeneratorEmail::Behavior()
 { // --- behavior specification --- 
 
 	(new EmailCustomer(myApache, myCpu))->Activate(); // novy email customer
-	Activate(Time + Exponential(ROZLOZENIGENEROVANI)); // zde se aktivuje
+	Activate(Time + Exponential(myCpu->myPar->generateEmail)); // zde se aktivuje
 
 
 }

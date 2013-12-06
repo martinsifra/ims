@@ -4,25 +4,27 @@
 #include "simlib.h" 
 //#include "global.h"
 
+class Ram { 
+public:
+	Ram(
+					unsigned long accessTimeRamPar,
+					unsigned long frequencyRamPar,
+					unsigned long speedOfReadRamPar,
+					unsigned long cyclePerByteRamPar
+					); //konstruktor
+	~Ram(); //destruktor
 
-class Ram 
-{ 
-  
- public: 
-  Ram(); //konstruktor
-  ~Ram(); //destruktor
-   
 	unsigned long accessTime;
 	unsigned long frequency;
 	unsigned long cyclePerByte;
-	
+
 	double timeReadRam(unsigned long sizeFile);
-	
 
- private:
+
+private:
 	unsigned long speedOfRead;
-  
 
-}; 
+
+};
 
 #endif //RAM_H

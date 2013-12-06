@@ -1,10 +1,17 @@
 #include "ram.h"
 
-Ram::Ram()
+Ram::Ram(
+  unsigned long accessTimeRamPar,
+	unsigned long frequencyRamPar,
+	unsigned long speedOfReadRamPar,
+	unsigned long cyclePerByteRamPar
+)
 { 
-	frequency = 15000;
-	speedOfRead = 8000;
-	cyclePerByte = 5000;
+	
+	accessTime = accessTimeRamPar;
+	frequency = frequencyRamPar;
+	speedOfRead = speedOfReadRamPar;
+	cyclePerByte = cyclePerByteRamPar;
 	
 }
 

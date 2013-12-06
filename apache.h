@@ -20,9 +20,9 @@ class Apache
   ~Apache(); //destruktor
    
 	//simulace vytvareni procesu, ktery bude obsluhovat jednotlive zakazniky
-   void createNewEmailProccess(EmailCustomer *actualECust);
-	 void createNewFtpProccess(FtpCustomer *actualFCust);
-	 void createNewStreamProccess(StreamCustomer *actualSCust);
+   void createNewEmailProccess(EmailCustomer *actualCust);
+	 void createNewFtpProccess(FtpCustomer *actualCust);
+	 void createNewStreamProccess(StreamCustomer *actualCust);
 
    Store proccess;
    Facility mainProccessApache; //hlavni proces, ktery bezi furt

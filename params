@@ -1,28 +1,46 @@
+//INITTIME
+start = 
+stop = 
+
 //CPU
-processor = 10
-core = 20
-frequency = 15000
-cyclePerByte = 150
-maxCyclePerByte = 1000
+processorCpu = 10
+coreCpu = 20
+frequencyCpu = 15000
+cyclePerByteCpu = 150
+maxCyclePerRoundCpu = 1000
 
 //RAM
-accessTime = 100
-frequency = 100
-speedOfRead = 50
-cyclePerByte = 500
+accessTimeRam = 100
+frequencyRam = 100
+speedOfReadRam = 50
+cyclePerByteRam = 500
 
 //HDD
-accessTime =
-capacity = 
-speedOfRead =
-speedOfWrite =
+accessTimeHdd =
+capacityHdd = 
+countHdd = 
+speedOfReadHdd =
+speedOfWriteHdd =
+
+//HTTP
+sizeHeader = 
 
 //EMAIL
-generovani = 
-headerSize = 
-listEmailSize = 
-oneEmailSize = 
-attachFilesSize = 
+generateEmail = 
+listEmailSizeEmail = 
+oneEmailSizeEmail = 
+attachFilesSizeEmail = 
+
+//FTP
+generateFtp = 
+sizeDemandFileFtp = 
+averageFileFtp = 
+
+//STREAM
+generateStream =
+averageVideoStream = 
+
+//NETWORK
 
 
 //APACHE
