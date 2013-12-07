@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall
 LDFLAGS=  -lsimlib -lm 
-SOURCES=main.cpp emailCustomer.cpp streamCustomer.cpp ftpCustomer.cpp hardDisk.cpp ram.cpp cpu.cpp apache.cpp parseParam.cpp
+SOURCES=main.cpp emailCustomer.cpp streamCustomer.cpp ftpCustomer.cpp hardDisk.cpp ram.cpp cpu.cpp apache.cpp parseParam.cpp Request.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=cloud
 
@@ -18,5 +18,5 @@ clean:
 	rm -f *.o $(EXECUTABLE)
 
 run:
-	./$(EXECUTABLE)
+	./cloud
 

@@ -10,10 +10,6 @@
 #include <stdio.h>
 #include "parseParam.h"
 
-#define POCETJADER 10
-#define POCETPROCESORU 10
-#define MAXPROCESUAPACHE 10
-
 int main()
 {
 	Histogram hist("Table", 0, 25, 20);
@@ -23,12 +19,14 @@ int main()
 	ParseParam par("params");
 
 	if (par.err != "")
+	{
 		fprintf(stderr, "%s\n", par.err.c_str());
+		return 2;
+	}
 
 	//zde budeme nastavovat velikost HDD, pristupovou dobu, atd. HDD
 	HardDisk myHardDisk(
 					par.accessTimeHdd,
-					par.capacityHdd,
 					par.speedOfReadHdd,
 					par.speedOfWriteHdd,
 					par.countHdd
@@ -44,7 +42,8 @@ int main()
 					);
 	//pameti a ostatni budou ulozeny v procesoru
 	Cpu myCPU(par.coreCpu, par.processorCpu, &myRam, &myHardDisk, &hist, &par);
-	Apache myApache(MAXPROCESUAPACHE);
+//pocet hlavnich procesu podle poctu servru
+	Apache myApache( par.processorCpu);
 
 	Init(par.startTime, par.endTime);
 
@@ -52,11 +51,24 @@ int main()
 	(new GeneratorFtp(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
 	(new GeneratorStream(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
 	Run();
-	//myApache.mainProccessApache.Output();
-	//myApache.proccess.Output();
+	
+	//hlavni proces apache
+	myApache.mainProccessApache.Output();
+	//cekani ve fronte na apache
+	myApache.incomingReq.Output();
+  
+	
+	//cekani na procesor
+	myCPU.processorsPower.Output();
+	//cekani ve fronte
+	myCPU.waitingProcess.Output();
 
-	//myCPU.processorsPower.Output();
-	hist.Output();
+	//cekani na HDD
+	myHardDisk.numberDisc.Output();
+	//cekani ve fronte na HDD
+	myHardDisk.waitingForHDD.Output();
+	
+	//hist.Output();
 	
 	return 0;
 }

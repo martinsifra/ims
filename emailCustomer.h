@@ -4,45 +4,33 @@
 #include "simlib.h" 
 #include <stdio.h>
 #include <iostream>
-//#include "global.h"
 #include "cpu.h"
 #include "apache.h"
-
-
-#define ROZLOZENIGENEROVANI 10
 
 class Apache;
 class Cpu;
 class ParseParam;
 
-class EmailCustomer : public Process 
-{ 
-  
- public: 
-  EmailCustomer(Apache *apache, Cpu *cpu); //konstruktor
-  ~EmailCustomer(); //destruktor
+class EmailCustomer : public Process {
+public:
+	EmailCustomer(Apache *apache, Cpu *cpu); //konstruktor
+	~EmailCustomer(); //destruktor
 
 
-  double prichod;    // atribute of each customer 
-  void Behavior();    // --- behavoir specification --- 
-  Cpu *myCpu;
-  Apache *myApache;
+	double prichod; // atribute of each customer 
+	void Behavior(); // --- behavoir specification --- 
+	Cpu *myCpu;
+	Apache *myApache;
 	//v B
 	unsigned long headerSize;
-	void parseHeaderReq();
+	unsigned long PID;
 
- private:
-	 
-	 void emailAction();
-	 void viewListEmail(); 
-	 void viewEmail();
-	 void actionInEmail();
-
-}; 
+private:
 
 
-class GeneratorEmail : public Event
-{
+};
+
+class GeneratorEmail : public Event {
 public:
 	GeneratorEmail(Apache *apache, Cpu *cpu);
 	~GeneratorEmail();
@@ -51,7 +39,7 @@ public:
 private:
 	void Behavior();
 	Cpu *myCpu;
-    Apache *myApache;
+	Apache *myApache;
 };
 
 #endif //EMAILCUSTOMER_H

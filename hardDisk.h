@@ -8,7 +8,6 @@ class HardDisk {
 public:
 	HardDisk(
 					unsigned long accessTimePar,
-					unsigned long capacityPar,
 					unsigned long speedOfReadPar,
 					unsigned long speedOfWritePar,
 					unsigned long countHddpar
@@ -16,9 +15,11 @@ public:
 	~HardDisk(); //destruktor
 
 	Store numberDisc;
+	Queue waitingForHDD;
 	double timeReadHardisk(unsigned long sizeFile);
 	double timeWriteHardisk(unsigned long sizeFile);
-
+  
+	
 private:
 	unsigned long accessTime;
 	unsigned long capacity;

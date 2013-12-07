@@ -5,31 +5,35 @@
 #include "emailCustomer.h"
 #include "ftpCustomer.h"
 #include "streamCustomer.h"
-//#include "global.h" 
+#include "Request.h" 
 #include <stdio.h>
 
 class EmailCustomer;
 class FtpCustomer;
 class StreamCustomer;
 
+
 class Apache 
 { 
   
  public: 
-   Apache(int countProccess); //konstruktor
+   Apache(int countMainProcces); //konstruktor
   ~Apache(); //destruktor
    
-	//simulace vytvareni procesu, ktery bude obsluhovat jednotlive zakazniky
+	
+	/**
+	 * @brief Funkce simuluje vytvoreni (fork) v apache pozadavek na cteni
+   * @param actualCust aktualni zpracovavany proces
+   */
    void createNewEmailProccess(EmailCustomer *actualCust);
 	 void createNewFtpProccess(FtpCustomer *actualCust);
 	 void createNewStreamProccess(StreamCustomer *actualCust);
 
-   Store proccess;
-   Facility mainProccessApache; //hlavni proces, ktery bezi furt
-
+   Store mainProccessApache; //hlavni proces, ktery bezi furt
+   
+	 Queue incomingReq;
 
  private:
- 	int maxCreateProccess;
   
 
 }; 

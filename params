@@ -1,48 +1,45 @@
 //INITTIME
-start = 
-stop = 
+start = 1
+stop = 3600000
 
 //CPU
-processorCpu = 10
-coreCpu = 20
-frequencyCpu = 15000
+processorCpu = 20
+coreCpu = 4
+frequencyCpu = 2900000000
 cyclePerByteCpu = 150
-maxCyclePerRoundCpu = 1000
+maxCyclePerRoundCpu = 150
 
 //RAM
-accessTimeRam = 100
-frequencyRam = 100
-speedOfReadRam = 50
-cyclePerByteRam = 500
+accessTimeRam = 1
+frequencyRam = 6670000
+speedOfReadRam = 500
+cyclePerByteRam = 1000
 
 //HDD
-accessTimeHdd =
-capacityHdd = 
-countHdd = 
-speedOfReadHdd =
-speedOfWriteHdd =
+accessTimeHdd = 10
+countHdd = 100
+speedOfReadHdd = 90000000
+speedOfWriteHdd = 50000000
 
 //HTTP
-sizeHeader = 
+sizeHeader = 1500
 
 //EMAIL
-generateEmail = 
-listEmailSizeEmail = 
-oneEmailSizeEmail = 
-attachFilesSizeEmail = 
+generateEmail = 1000
+listEmailSizeEmail = 54000
+oneEmailSizeEmail = 2000
+attachFilesSizeEmail = 250000
 
 //FTP
-generateFtp = 
-sizeDemandFileFtp = 
-averageFileFtp = 
+generateFtp = 1500
+sizeDemandFileFtp = 50
+averageFileFtp = 250000
 
 //STREAM
-generateStream =
-averageVideoStream = 
+generateStream = 2000
+averageVideoStream = 600000000
 
 //NETWORK
 
-
 //APACHE
-timeCreateNewProcess = 
-
+timeCreateNewProcess = 10

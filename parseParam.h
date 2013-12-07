@@ -31,7 +31,6 @@ public:
 
 	//HDD
 	unsigned long accessTimeHdd;
-	unsigned long capacityHdd;
 	unsigned long countHdd;
 	unsigned long speedOfReadHdd;
 	unsigned long speedOfWriteHdd;
@@ -58,6 +57,7 @@ public:
 
 
 	//APACHE
+	//doba procesoru ztravena pri generovani noveho procesu v ms
 	unsigned long timeCreateNewProcess;
 
 	//ERR

@@ -21,6 +21,7 @@ Ram::~Ram()
 	
 }
 
+
 double Ram::timeReadRam(unsigned long fileSize)
 {
   return (((fileSize * cyclePerByte) / frequency) + accessTime);	

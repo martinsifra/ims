@@ -4,11 +4,9 @@
 #include "simlib.h" 
 #include <stdio.h>
 #include <iostream>
-//#include "global.h"
 #include "cpu.h"
 #include "apache.h"
 
-#define ROZLOZENIGENEROVANI 10
 
 class Apache;
 class Cpu;
@@ -24,8 +22,8 @@ public:
 	Cpu *myCpu;
 	Apache *myApache;
 	unsigned long headerSize;
-	void watchVideo();
-	void parseHeaderReq();
+	
+	unsigned long PID;
 	
 private:
 

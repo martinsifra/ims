@@ -2,17 +2,17 @@
 
 HardDisk::HardDisk(
 				unsigned long accessTimePar,
-				unsigned long capacityPar,
 				unsigned long speedOfReadPar,
 				unsigned long speedOfWritePar,
 				unsigned long countHddpar
 				)
 {
 	accessTime = accessTimePar;
-	capacity = capacityPar;
 	speedOfRead = speedOfReadPar;
 	speedOfWrite = speedOfWritePar;
 	numberDisc.SetCapacity(countHddpar);
+	
+	numberDisc.SetQueue(waitingForHDD);
 }
 
 HardDisk::~HardDisk()

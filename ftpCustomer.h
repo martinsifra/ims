@@ -4,42 +4,34 @@
 #include "simlib.h" 
 #include <stdio.h>
 #include <iostream>
-//#include "global.h"
 #include "cpu.h"
 #include "apache.h"
-
-#define ROZLOZENIGENEROVANI 10
 
 
 class Apache;
 class Cpu;
 
-class FtpCustomer : public Process 
-{ 
-  
- public: 
-  FtpCustomer(Apache *apache, Cpu *cpu); //konstruktor
-  ~FtpCustomer(); //destruktor
+class FtpCustomer : public Process {
+public:
+	FtpCustomer(Apache *apache, Cpu *cpu); //konstruktor
+	~FtpCustomer(); //destruktor
 
 
-  double prichod;    // atribute of each customer 
-  void Behavior();    // --- behavoir specification --- 
+	double prichod; // atribute of each customer 
+	void Behavior(); // --- behavoir specification --- 
 
-  Cpu *myCpu;
-  Apache *myApache;
-	
+	Cpu *myCpu;
+	Apache *myApache;
+
 	unsigned long headerSize;
-	void parseHeaderReq();
-	void findReqFile();
-	void uploadFile();
-	void downloadFile();
- private:
-	 
 
-}; 
+	unsigned long PID;
+private:
 
-class GeneratorFtp : public Event
-{
+
+};
+
+class GeneratorFtp : public Event {
 public:
 	GeneratorFtp(Apache *apache, Cpu *cpu);
 	~GeneratorFtp();
@@ -48,7 +40,7 @@ public:
 private:
 	void Behavior();
 	Cpu *myCpu;
-  Apache *myApache;
+	Apache *myApache;
 };
 
 

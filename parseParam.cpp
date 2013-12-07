@@ -34,6 +34,7 @@ void ParseParam::parseFile()
 	if (endTime == 0)
 		err += "Chyba v endTime\n";
 	
+	getline(myFile, readLine); //nacteme prazdny radek
 	getline(myFile, readLine); //nacteme //CPU
 
 	getline(myFile, readLine); //pocet procesoru
@@ -91,11 +92,6 @@ void ParseParam::parseFile()
 	accessTimeHdd = splitConvert(readLine);
 	if (accessTimeHdd == 0)
 		err += "Chyba v accessTimeHdd HDD\n";
-
-	getline(myFile, readLine); //capacityHdd HDD
-	capacityHdd = splitConvert(readLine);
-	if (capacityHdd == 0)
-		err += "Chyba v capacityHdd HDD\n";
 
 	getline(myFile, readLine); //countHdd HDD
 	countHdd = splitConvert(readLine);
@@ -180,10 +176,11 @@ void ParseParam::parseFile()
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //APACHE
 	
-	getline(myFile, readLine); //timeCreateNewProcess STREAM
+	getline(myFile, readLine); //timeCreateNewProcess APACHE
 	timeCreateNewProcess = splitConvert(readLine);
 	if (timeCreateNewProcess == 0)
-		err += "Chyba v timeCreateNewProcess STREAM\n";
+		err += "Chyba v timeCreateNewProcess APACHE\n";
+	
 	
 
 
@@ -193,6 +190,7 @@ unsigned long ParseParam::splitConvert(std::string readLine)
 {
 	size_t found = readLine.find_last_of("=");
 	std::string size = readLine.substr(found + 1);
+	//printf("%s\n",size.c_str());
 	return strtoul(size.c_str(), NULL, 0);
 
 }
