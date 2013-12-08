@@ -19,15 +19,14 @@ public:
 	//CPU
 	unsigned long processorCpu;
 	unsigned long coreCpu;
+	unsigned long threadsCpu;
 	unsigned long frequencyCpu;
 	unsigned long cyclePerByteCpu;
 	unsigned long maxCyclePerRoundCpu;
 
 	//RAM
 	unsigned long accessTimeRam;
-	unsigned long frequencyRam;
-	unsigned long speedOfReadRam;
-	unsigned long cyclePerByteRam;
+	unsigned long throughputRam;
 
 	//HDD
 	unsigned long accessTimeHdd;
@@ -54,7 +53,7 @@ public:
 	unsigned long averageVideoStream;
 
 	//NETWORK
-
+  unsigned long capacityNetwork;
 
 	//APACHE
 	//doba procesoru ztravena pri generovani noveho procesu v ms
@@ -62,6 +61,8 @@ public:
 
 	//ERR
 	std::string err;
+	
+	unsigned long period;
   
 	void parseFile();
 

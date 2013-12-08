@@ -8,15 +8,12 @@ class Ram {
 public:
 	Ram(
 					unsigned long accessTimeRamPar,
-					unsigned long frequencyRamPar,
-					unsigned long speedOfReadRamPar,
-					unsigned long cyclePerByteRamPar
+					unsigned long throughputPar
 					); //konstruktor
 	~Ram(); //destruktor
 
 	unsigned long accessTime;
-	unsigned long frequency;
-	unsigned long cyclePerByte;
+	unsigned long throughput;
 
 	double timeReadRam(unsigned long sizeFile);
 

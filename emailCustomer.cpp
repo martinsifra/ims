@@ -25,7 +25,7 @@ void EmailCustomer::Behavior()
 {
 	prichod = Time;
 
-	//printf("%lu: Novy Email - Req\n", PID);
+//	printf("%lu: Novy Email - Req\n", PID);
 
 	//vytvarime novy proces
 	myApache->createNewEmailProccess(this);
@@ -57,6 +57,7 @@ void GeneratorEmail::Behavior()
 { // --- behavior specification --- 
 
 	(new EmailCustomer(myApache, myCpu))->Activate(); // novy email customer
+	
 	Activate(Time + Exponential(myCpu->myPar->generateEmail)); // zde se aktivuje
 
 

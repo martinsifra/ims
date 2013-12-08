@@ -13,9 +13,11 @@
 int main()
 {
 	Histogram hist("Table", 0, 25, 20);
+	
+	std::ofstream  Trafic;
+	Trafic.open ("Trafic.txt");
 	//to budeme resit nejakou konstantou od - do
 	SetOutput("model.txt");
-
 	ParseParam par("params");
 
 	if (par.err != "")
@@ -36,15 +38,14 @@ int main()
 	//zde budeme nastavovat parametry RAM
 	Ram myRam(
 					par.accessTimeRam,
-					par.frequencyRam,
-					par.speedOfReadRam,
-					par.cyclePerByteRam
+					par.throughputRam
 					);
 	//pameti a ostatni budou ulozeny v procesoru
-	Cpu myCPU(par.coreCpu, par.processorCpu, &myRam, &myHardDisk, &hist, &par);
+	Cpu myCPU( &myRam, &myHardDisk, &hist, &par);
 //pocet hlavnich procesu podle poctu servru
 	Apache myApache( par.processorCpu);
-
+  
+	//printf("%lu /  %lu", par.startTime, par.endTime);
 	Init(par.startTime, par.endTime);
 
 	(new GeneratorEmail(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
@@ -52,6 +53,9 @@ int main()
 	(new GeneratorStream(&myApache, &myCPU))->Activate(); // vygeneruje zakazniky a zaroven aktivuje
 	Run();
 	
+	printf("Celkove emailu: %lu\n", myApache.Email);
+	printf("Celkove ftp: %lu\n", myApache.Ftp);
+	printf("Celkove stream: %lu\n", myApache.Stream);
 	//hlavni proces apache
 	myApache.mainProccessApache.Output();
 	//cekani ve fronte na apache
@@ -67,6 +71,13 @@ int main()
 	myHardDisk.numberDisc.Output();
 	//cekani ve fronte na HDD
 	myHardDisk.waitingForHDD.Output();
+	
+	myCPU.network.Output();
+	myCPU.outPackeQ.Output();
+	
+	Trafic << ((myCPU.outTrafic) * 1500 ) << "\n";
+	
+	Trafic.close();
 	
 	//hist.Output();
 	

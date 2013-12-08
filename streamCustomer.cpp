@@ -22,6 +22,7 @@ StreamCustomer::~StreamCustomer()
 }
 
 //---------------------------------------------------
+
 void StreamCustomer::Behavior()
 {
 

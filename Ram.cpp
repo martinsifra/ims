@@ -2,16 +2,13 @@
 
 Ram::Ram(
   unsigned long accessTimeRamPar,
-	unsigned long frequencyRamPar,
-	unsigned long speedOfReadRamPar,
-	unsigned long cyclePerByteRamPar
+	unsigned long throughputPar
 )
 { 
 	
 	accessTime = accessTimeRamPar;
-	frequency = frequencyRamPar;
-	speedOfRead = speedOfReadRamPar;
-	cyclePerByte = cyclePerByteRamPar;
+	throughput = throughputPar;
+
 	
 }
 
@@ -24,6 +21,6 @@ Ram::~Ram()
 
 double Ram::timeReadRam(unsigned long fileSize)
 {
-  return (((fileSize * cyclePerByte) / frequency) + accessTime);	
+  return (fileSize / throughput) + accessTime;	
 	
 }

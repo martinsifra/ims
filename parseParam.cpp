@@ -6,6 +6,7 @@ ParseParam::ParseParam(std::string fileName)
 	err = "";
 	myFile.open(fileName.c_str());
 	parseFile();
+	period = 0;
 }
 
 ParseParam::~ParseParam()
@@ -28,12 +29,12 @@ void ParseParam::parseFile()
 	startTime = splitConvert(readLine);
 	if (startTime == 0)
 		err += "Chyba v startTime\n";
-	
+
 	getline(myFile, readLine); //endTime
 	endTime = splitConvert(readLine);
 	if (endTime == 0)
 		err += "Chyba v endTime\n";
-	
+
 	getline(myFile, readLine); //nacteme prazdny radek
 	getline(myFile, readLine); //nacteme //CPU
 
@@ -45,6 +46,11 @@ void ParseParam::parseFile()
 	getline(myFile, readLine); //jadra procesoru
 	coreCpu = splitConvert(readLine);
 	if (coreCpu == 0)
+		err += "Chyba v jadrech procesoru\n";
+	
+	getline(myFile, readLine); //vlakna procesoru
+	threadsCpu = splitConvert(readLine);
+	if (threadsCpu == 0)
 		err += "Chyba v jadrech procesoru\n";
 
 	getline(myFile, readLine); //frekvence procesoru
@@ -70,20 +76,12 @@ void ParseParam::parseFile()
 	if (accessTimeRam == 0)
 		err += "Chyba v accessTimeRam Ram\n";
 
-	getline(myFile, readLine); //frequencyRam Ram
-	frequencyRam = splitConvert(readLine);
-	if (frequencyRam == 0)
-		err += "Chyba v frequencyRam Ram\n";
+	getline(myFile, readLine); //throughputRam Ram
+	throughputRam = splitConvert(readLine);
+	if (throughputRam == 0)
+		err += "Chyba v throughputRam Ram\n";
 
-	getline(myFile, readLine); //speedOfReadRam Ram
-	speedOfReadRam = splitConvert(readLine);
-	if (speedOfReadRam == 0)
-		err += "Chyba v speedOfReadRam Ram\n";
-
-	getline(myFile, readLine); //cyclePerByteRam Ram
-	cyclePerByteRam = splitConvert(readLine);
-	if (cyclePerByteRam == 0)
-		err += "Chyba v cyclePerByteRam Ram\n";
+	throughputRam = throughputRam / 1000;
 
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //HDD
@@ -103,10 +101,12 @@ void ParseParam::parseFile()
 	if (speedOfReadHdd == 0)
 		err += "Chyba v speedOfReadHdd  HDD\n";
 
+
 	getline(myFile, readLine); //speedOfWriteHdd  HDD
 	speedOfWriteHdd = splitConvert(readLine);
 	if (speedOfWriteHdd == 0)
 		err += "Chyba v speedOfWriteHdd HDD\n";
+
 
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //HTTP
@@ -119,10 +119,12 @@ void ParseParam::parseFile()
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //EMAIL
 
-	getline(myFile, readLine); //generateEmail EMAIL
+	getline(myFile, readLine); //generateEmail0-4 EMAIL
 	generateEmail = splitConvert(readLine);
 	if (generateEmail == 0)
-		err += "Chyba v generateEmail EMAIL\n";
+		err += "Chyba v generateEmail0-4 EMAIL\n";
+
+
 
 	getline(myFile, readLine); //listEmailSizeEmail EMAIL
 	listEmailSizeEmail = splitConvert(readLine);
@@ -142,10 +144,11 @@ void ParseParam::parseFile()
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //FTP
 
-	getline(myFile, readLine); //generateEmailFtp FTP
+	getline(myFile, readLine); //generateFtp0-4Ftp
 	generateFtp = splitConvert(readLine);
 	if (generateFtp == 0)
-		err += "Chyba v generateFtp FTP\n";
+		err += "Chyba v generateFtp 0-4 FTP\n";
+
 
 	getline(myFile, readLine); //sizeDemandFileFtp FTP
 	sizeDemandFileFtp = splitConvert(readLine);
@@ -160,10 +163,10 @@ void ParseParam::parseFile()
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //STREAM
 
-	getline(myFile, readLine); //generateStream STREAM
+	getline(myFile, readLine); //generateFtp0-4 STREAM
 	generateStream = splitConvert(readLine);
 	if (generateStream == 0)
-		err += "Chyba v generateStream STREAM\n";
+		err += "Chyba v generateStream 0-4 STREAM\n";
 
 	getline(myFile, readLine); //averageVideoStream STREAM
 	averageVideoStream = splitConvert(readLine);
@@ -172,16 +175,21 @@ void ParseParam::parseFile()
 
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //NETWORK
-	
+
+	getline(myFile, readLine); //capacityNetwork NETWORK
+	capacityNetwork = splitConvert(readLine);
+	if (capacityNetwork == 0)
+		err += "Chyba v capacityNetwork NETWORK\n";
+
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //APACHE
-	
+
 	getline(myFile, readLine); //timeCreateNewProcess APACHE
 	timeCreateNewProcess = splitConvert(readLine);
 	if (timeCreateNewProcess == 0)
 		err += "Chyba v timeCreateNewProcess APACHE\n";
-	
-	
+
+
 
 
 }
