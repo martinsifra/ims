@@ -27,8 +27,10 @@ void StreamCustomer::Behavior()
 {
 
 	prichod = Time;
+	(*myCpu->histPozadavky)(Time);
+	(*myCpu->histPozadavkyS)(Time);
 
-	printf("%lu: Novy STREAM - Req\n", PID);
+//	printf("%lu: Novy STREAM - Req\n", PID);
 	//vytvarime novy proces
 	myApache->createNewStreamProccess(this);
 

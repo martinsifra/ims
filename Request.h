@@ -23,6 +23,7 @@ public:
 	double prichod;
 	unsigned long PID;
 	unsigned long headerSize;
+	
 
 	 std::vector<std::string> typReq;
 	 

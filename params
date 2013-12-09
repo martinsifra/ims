@@ -16,7 +16,7 @@ throughputRam = 10000000000
 
 //HDD
 accessTimeHdd = 5
-countHdd = 2
+countHdd = 5
 speedOfReadHdd = 9000000000
 speedOfWriteHdd = 6000000000
 
@@ -24,16 +24,16 @@ speedOfWriteHdd = 6000000000
 sizeHeader = 1500
 
 //EMAIL
-generateEmail = 100000
+generateEmail = 100
 listEmailSizeEmail = 54000
 oneEmailSizeEmail = 585000
 
 //FTP
-generateFtp = 150000
+generateFtp = 1500
 sizeDemandFileFtp = 46500
 
 //STREAM
-generateStream = 2100000
+generateStream = 2100
 averageVideoStream = 242
 
 //NETWORK

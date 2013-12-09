@@ -33,7 +33,6 @@ Request::~Request()
 
 void Request::parseHeaderReq()
 {
-	printf("%lu: %s - HEADReq, %lu \n", PID, (typReq[type]).c_str(), headerSize);
 	unsigned long lastRound;
 	//zjistime pocet kol procesoru
 	unsigned long round = myCpu->numberRound(myCpu->countCycle(headerSize), &lastRound);
@@ -51,17 +50,14 @@ void Request::parseHeaderReq()
 			if (myCpu->processorsPower.Full())
 			{
 				amIwait++;
-				printf("%lu: %s - HEADReq - neni procesor - jdu do fronty, i = %d \n", PID, (typReq[type]).c_str(), i);
 				myCpu->waitingProcess.Insert(this);
 				Passivate();
 			}
 			else
 			{
-				printf("%lu: %s - HEADReq - volno , i = %d \n", PID, (typReq[type]).c_str(), i);
 				if (!myCpu->waitingProcess.Empty() && amIwait == 0)
 				{
 					amIwait++;
-					printf("%lu: %s - HEADReq - nekdo cekal, uvolnim ho, i = %d \n", PID, (typReq[type]).c_str(), i);
 					(myCpu->waitingProcess.GetFirst())->Activate();
 					myCpu->waitingProcess.Insert(this);
 					Passivate();
@@ -71,23 +67,18 @@ void Request::parseHeaderReq()
 			}
 		}
 
-
-		printf("%lu: %s - HEADReq - zabiram procesor, i = %d \n", PID, (typReq[type]).c_str(), i);
 		//zabiram si procesor
 		Enter(myCpu->processorsPower, 1);
 
 		//provadim zpracovani hlavicky pozadavku
 		if (i != 0)
 		{
-			printf("%lu: %s - HEADReq - cekam round, i = %d, cekam = %f  \n", PID, (typReq[type]).c_str(), i, myCpu->countTime(myCpu->maxCyclePerRound));
 			Wait(myCpu->countTime(myCpu->maxCyclePerRound));
 		}
 		else
 		{
-			printf("%lu: %s - HEADReq - cekam posledni, i = %d, cekam = %f \n", PID, (typReq[type]).c_str(), i, myCpu->countTime(lastRound));
 			Wait(myCpu->countTime(lastRound));
 		}
-		printf("%lu: %s - HEADReq - uvolnim procesor, i = %d \n", PID, (typReq[type]).c_str(), i);
 
 		myCpu->leaveCpuStartNext(this);
 
@@ -100,7 +91,6 @@ void Request::parseHeaderReq()
 
 void Request::viewListEmail()
 {
-	printf("%lu: Email - Zobrazuji seznam emailu \n", PID);
 	myCpu->requestRead(this, myCpu->myPar->listEmailSizeEmail);
 }
 //---------------------------------------------------
@@ -112,7 +102,6 @@ void Request::viewEmail()
 	if (myCpu->myRandValue(100, 1) <= 10)
 	{
 		//jenom jsem se mrkl, nasledne odchazim
-		printf("%lu: %s - Nic nechci, odchazim\n", PID, (typReq[type]).c_str());
 	}
 	else
 	{
@@ -131,12 +120,10 @@ void Request::actionInEmail()
 
 	for (int i = 1; i <= numberEmails; i++)
 	{
-		printf("%lu: Email - pozadavek na email %i \n", PID, i);
 		parseHeaderReq();
 
 		size = Normal(myCpu->myPar->oneEmailSizeEmail, 1);
 		//ctu email prumerne velikosti
-		printf("%lu: Email - ctu email %i \n", PID, i);
 		myCpu->requestRead(this, size);
 
 		//bude tam priloha?
@@ -147,13 +134,11 @@ void Request::actionInEmail()
 			if (myCpu->myRandValue(100, 1) > 10)
 			{
 				//zpracuji hlavicku pozadavku na prilohu
-				printf("%lu: Email - pozadavek na prilohu emailu %i \n", PID, i);
 				parseHeaderReq();
 
 				//atachFileSizes
 				size = Exponential(0.00000555);
 
-				printf("%lu: Email - ctu prilohu email %i \n", PID, i);
 				//stahuji prilohu
 				myCpu->requestRead(this, size);
 			}
@@ -164,19 +149,16 @@ void Request::actionInEmail()
 		if (myCpu->myRandValue(100, 1) <= 90)
 		{
 			//zpracovavam hlavicku
-			printf("%lu: Email - pozadavek na psani email %i \n", PID, i);
 			parseHeaderReq();
 
 			if (myCpu->myRandValue(100, 1) <= 10)
 			{
 				// odesilam (zapisuji na HDD)  velikost email + priloha 
-				printf("%lu: Email - psani email %i i priloha  \n", PID, i);
 				size = Normal(myCpu->myPar->oneEmailSizeEmail, 1) + Exponential(0.00000555);
 				myCpu->requestWrite(this, size);
 			}
 			else
 			{
-				printf("%lu: Email - psani email %i  \n", PID, i);
 				size = Normal(myCpu->myPar->oneEmailSizeEmail, 1);
 
 				//odesilam (zapisuji na HDD) jenom email
@@ -193,7 +175,6 @@ void Request::actionInEmail()
 
 			size = Normal(myCpu->myPar->oneEmailSizeEmail, 1);
 			//mazu disk
-			printf("%lu: Email - mazu email %i i priloha  \n", PID, i);
 			myCpu->requestWrite(this, size);
 		}
 	}
@@ -215,7 +196,6 @@ void Request::uploadFile()
 		{
 			parseHeaderReq();
 			sizeFile = Exponential(0.000043);
-			printf("%lu: Upload - velikost souboru %f  \n", PID, sizeFile);
 			myCpu->requestWrite(this, sizeFile);
 		}
 	}
@@ -233,8 +213,7 @@ void Request::downloadFile()
 		{
 			parseHeaderReq();
 			sizeFile = Exponential(0.0000165);
-			printf("%lu: Download - velikost souboru %f  \n", PID, sizeFile);
-			myCpu->requestRead(this, Exponential(0.0000165));
+			myCpu->requestRead(this, sizeFile);
 		}
 	}
 }
@@ -259,8 +238,7 @@ void Request::watchVideo()
 	{
 		parseHeaderReq();
 		longVideo = Normal(myCpu->myPar->averageVideoStream, 1);
-		videoSize = Normal(myCpu->myPar->averageVideoStream, 1) * typeVideo;
-		printf("%lu: STREAM - delka videa v s: %lu, typ(nasobitel): %i, velikost celkem: %lu\n", PID, longVideo, typeVideo,videoSize  );
+		videoSize = longVideo * typeVideo;
 		myCpu->requestRead(this, videoSize);
 	}
 
@@ -272,9 +250,6 @@ void Request::Behavior()
 	prichod = Time;
 	if (type == 1) //pokud je to email
 	{
-
-		printf("%lu: Novy Email\n", PID);
-
 		parseHeaderReq();
 
 		//zobrazime si zakladni prehled emailu
@@ -287,7 +262,7 @@ void Request::Behavior()
 	}
 	else if (type == 2) //pokud je to FTP
 	{
-		printf("%lu: Nove FTP\n", PID);
+//		printf("%lu: Nove FTP\n", PID);
 		parseHeaderReq();
 
 		findReqFile();
@@ -324,13 +299,14 @@ void Request::Behavior()
 			typeVideo = 2726720;
 		}
 
-		printf("%lu: Novy Stream\n", PID);
+//		printf("%lu: Novy Stream\n", PID);
 		parseHeaderReq();
 
 		watchVideo();
 		myCpu->Stream << (Time - prichod) << "\n";
 	}
-
+  
+	(*myCpu->histPozadavkyReq)(Time - (prichod));
 
 
 
