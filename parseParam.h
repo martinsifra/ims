@@ -41,12 +41,10 @@ public:
 	unsigned long generateEmail;
 	unsigned long listEmailSizeEmail;
 	unsigned long oneEmailSizeEmail;
-	unsigned long attachFilesSizeEmail;
 
 	//FTP
 	unsigned long generateFtp;
 	unsigned long sizeDemandFileFtp;
-	unsigned long averageFileFtp;
 
 	//STREAM
 	unsigned long generateStream;

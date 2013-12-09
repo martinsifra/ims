@@ -6,22 +6,27 @@
 #include "cpu.h"
 #include "stdio.h"
 #include <vector>
+#include "apache.h"
 
 class Cpu;
+class Apache;
 
 
 class Request : public Process {
 public:
-	Request(Cpu * cpu, int typeReq, unsigned long mPID);
+	Request(Cpu * cpu, Apache *apache, int typeReq, unsigned long mPID);
 	virtual ~Request();
 
 	//promenne
 	Cpu *myCpu;
+	Apache *myApache;
 	double prichod;
 	unsigned long PID;
 	unsigned long headerSize;
 
 	 std::vector<std::string> typReq;
+	 
+	 int typeVideo;
 
 	//funkce
 	void Behavior();

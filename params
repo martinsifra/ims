@@ -1,13 +1,13 @@
 //INITTIME
 start = 1
-stop = 43200000
+stop = 3600000
 
 //CPU
-processorCpu = 36
-coreCpu = 8
-threadsCpu = 2
+processorCpu = 1
+coreCpu = 2
+threadsCpu = 1
 frequencyCpu = 2000000000
-cyclePerByteCpu = 154
+cyclePerByteCpu = 150
 maxCyclePerRoundCpu = 240000000
  
 //RAM
@@ -16,7 +16,7 @@ throughputRam = 10000000000
 
 //HDD
 accessTimeHdd = 5
-countHdd = 10
+countHdd = 2
 speedOfReadHdd = 9000000000
 speedOfWriteHdd = 6000000000
 
@@ -24,19 +24,17 @@ speedOfWriteHdd = 6000000000
 sizeHeader = 1500
 
 //EMAIL
-generateEmail = 1000
+generateEmail = 100000
 listEmailSizeEmail = 54000
 oneEmailSizeEmail = 585000
-attachFilesSizeEmail = 250000
 
 //FTP
 generateFtp = 150000
 sizeDemandFileFtp = 46500
-averageFileFtp = 800000
 
 //STREAM
-generateStream = 210000
-averageVideoStream = 6000000
+generateStream = 2100000
+averageVideoStream = 242
 
 //NETWORK
 sizeNetwork = 334000

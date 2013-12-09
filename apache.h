@@ -12,7 +12,7 @@ class EmailCustomer;
 class FtpCustomer;
 class StreamCustomer;
 
-class Apache { 
+class Apache {
 public:
 	Apache(int countMainProcces); //konstruktor
 	~Apache(); //destruktor
@@ -29,6 +29,8 @@ public:
 	Store mainProccessApache; //hlavni proces, ktery bezi furt
 
 	Queue incomingReq;
+
+
 
 	unsigned long Email;
 	unsigned long Stream;

@@ -33,7 +33,7 @@ void FtpCustomer::Behavior()
 	prichod = Time;
 
 	//vytvarime novy proces
-//	printf("%lu: Nove FTP - Req\n", PID);
+	printf("%lu: Nove FTP - Req\n", PID);
 	myApache->createNewFtpProccess(this);
 
 }

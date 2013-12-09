@@ -136,11 +136,6 @@ void ParseParam::parseFile()
 	if (oneEmailSizeEmail == 0)
 		err += "Chyba v oneEmailSizeEmail EMAIL\n";
 
-	getline(myFile, readLine); //attachFilesSizeEmail EMAIL
-	attachFilesSizeEmail = splitConvert(readLine);
-	if (attachFilesSizeEmail == 0)
-		err += "Chyba v attachFilesSizeEmail EMAIL\n";
-
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //FTP
 
@@ -154,11 +149,6 @@ void ParseParam::parseFile()
 	sizeDemandFileFtp = splitConvert(readLine);
 	if (sizeDemandFileFtp == 0)
 		err += "Chyba v sizeDemandFileFtp FTP\n";
-
-	getline(myFile, readLine); //averageFileFtp FTP
-	averageFileFtp = splitConvert(readLine);
-	if (averageFileFtp == 0)
-		err += "Chyba v averageFileFtp FTP\n";
 
 	getline(myFile, readLine); //prazdne misto
 	getline(myFile, readLine); //STREAM

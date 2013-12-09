@@ -25,7 +25,7 @@ void EmailCustomer::Behavior()
 {
 	prichod = Time;
 
-//	printf("%lu: Novy Email - Req\n", PID);
+	printf("%lu: Novy Email - Req\n", PID);
 
 	//vytvarime novy proces
 	myApache->createNewEmailProccess(this);

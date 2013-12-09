@@ -12,7 +12,7 @@
 
 int main()
 {
-	Histogram hist("Table", 0, 25, 20);
+	Histogram histPozadavky("Pozadavky", 0, 180000, 20);
 	
 	std::ofstream  Trafic;
 	Trafic.open ("Trafic.txt");
@@ -41,7 +41,7 @@ int main()
 					par.throughputRam
 					);
 	//pameti a ostatni budou ulozeny v procesoru
-	Cpu myCPU( &myRam, &myHardDisk, &hist, &par);
+	Cpu myCPU( &myRam, &myHardDisk, &histPozadavky, &par);
 //pocet hlavnich procesu podle poctu servru
 	Apache myApache( par.processorCpu);
   
@@ -56,6 +56,8 @@ int main()
 	printf("Celkove emailu: %lu\n", myApache.Email);
 	printf("Celkove ftp: %lu\n", myApache.Ftp);
 	printf("Celkove stream: %lu\n", myApache.Stream);
+
+
 	//hlavni proces apache
 	myApache.mainProccessApache.Output();
 	//cekani ve fronte na apache
@@ -74,6 +76,8 @@ int main()
 	
 	myCPU.network.Output();
 	myCPU.outPackeQ.Output();
+	
+	histPozadavky.Output();
 	
 	Trafic << ((myCPU.outTrafic) * 1500 ) << "\n";
 	

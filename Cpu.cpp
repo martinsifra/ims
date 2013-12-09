@@ -29,6 +29,9 @@ Cpu::Cpu( Ram *ram, HardDisk *hardDisk, Histogram *myTable,
 	
 	outTrafic = 0;
 	
+	srand (time(NULL));
+	
+	
 	Email.open ("Email.txt");
 	Ftp.open ("Ftp.txt");
 	Stream.open ("Stream.txt");
@@ -82,7 +85,7 @@ double Cpu::countTimeRead(unsigned long fileSize, int *typeMemory)
 	}
 	else
 	{
-		*typeMemory = 1;
+		*typeMemory = 3;
 		//bereme v uvahu vybaveni Ramky, vybavovaci dobu Cache zanedbavame
 		//vraci velikostsouboru/rychlostcteni + accesTime HDD + accesTIme ram
 		return (myRam->accessTime + myHardDisk->timeReadHardisk(fileSize));
@@ -105,7 +108,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 	int typeMemory, amIwait;
 	unsigned long lastRound;
 	typeMemory = 0;
-//	printf("%lu: %s - READ DATA  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+	printf("%lu: %s - READ DATA  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 	int countPacket;
 	unsigned long round = numberRound(countCycle(size), &lastRound);
 
@@ -113,7 +116,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 
 	if (typeMemory == 3)
 	{
-//		printf("%lu: %s - READ DATA - ctu z HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - ctu z HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		//najmu si procesor, aby vystavil pozadavek na pamet
 		amIwait = 0;
 		while (1)
@@ -123,13 +126,13 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 				break;
 		}
 
-//		printf("%lu: %s - READ DATA - beru si procesor  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - beru si procesor  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		actualCust->Enter(processorsPower, 1);
 		//cekame, nez procesor zpracuje pozadavky na cteni
 		//actualCust->Wait(1);
 
 
-//		printf("%lu: %s - READ DATA - opoustim procesor  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		//printf("%lu: %s - READ DATA - opoustim procesor  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		//uvolnime procesor a povolime prvniho ve fronte
 		leaveCpuStartNext(actualCust);
 
@@ -142,10 +145,10 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 				break;
 		}
 
-//		printf("%lu: %s - READ DATA - zabiram si HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - zabiram si HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		actualCust->Enter(myHardDisk->numberDisc, 1);
 
-//		printf("%lu: %s - READ DATA - Z HDD - cekam u HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - Z HDD - cekam u HDD  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		//cteme z HDD 
 		actualCust->Wait(timeMemory);
 
@@ -154,7 +157,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 	}
 	else //cteme z Ram nebo Cache
 	{
-//		printf("%lu: %s - READ DATA - Z CACHE|RAM \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - Z CACHE|RAM \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		//najmu si procesor, aby vystavil pozadavek na pamet
 		amIwait = 0;
 		while (1)
@@ -163,7 +166,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 			if (canHireCpu(actualCust, &amIwait) == 1)
 				break;
 		}
-//		printf("%lu: %s - READ DATA - Z CACHE|RAM - zabiram procesor \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - Z CACHE|RAM - zabiram procesor \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		actualCust->Enter(processorsPower, 1);
 		//cekame, nez procesor zpracuje pozadavky na cteni
 		//actualCust->Wait(2); 
@@ -174,7 +177,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 			actualCust->Wait(timeMemory);
 		else
 			//jinak z ramek
-			actualCust->Wait(myRam->timeReadRam(bytePercycle));
+			actualCust->Wait(myRam->timeReadRam(size));
 
 		//uvolnime procesor a povolime prvniho ve fronte
 		leaveCpuStartNext(actualCust);
@@ -191,7 +194,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 			if (canHireCpu(actualCust, &amIwait) == 1)
 				break;
 		}
-//		printf("%lu: %s - READ DATA - PAKETY - zabiram procesor, kolo = %i  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str(), i);
+		printf("%lu: %s - READ DATA - PAKETY - zabiram procesor, kolo = %i  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str(), i);
 		actualCust->Enter(processorsPower, 1);
 
 		if (i != 0)
@@ -212,8 +215,8 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 	{
 		int freePackets = network.Free();
 		//zabirame pakety
-		if(freePackets > desNetwork ){
-			freePackets = desNetwork; 
+		if(freePackets > 3*desNetwork ){
+			freePackets = 3*desNetwork; 
 		}
 		amIwait = 0;
 		while (1)
@@ -222,7 +225,7 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 				break;
 		}
 
-//		printf("%lu: %s - READ DATA - PAKETY - zabiram pakety  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - READ DATA - PAKETY - zabiram pakety, Pocet paketu jeste odeslat: %i \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str(), countPacket);
 
 		actualCust->Enter(network, freePackets);
     
@@ -230,15 +233,14 @@ void Cpu::requestRead(Request *actualCust, unsigned long size)
 		
 		countPacket -= freePackets;
 		//odesilame vterinu
-		actualCust->Wait(1);
-//		printf("%lu: %s - READ DATA - OPOUSTIM PAKETY  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		//actualCust->Wait(1);
+		printf("%lu: %s - READ DATA - OPOUSTIM PAKETY  \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		actualCust->Leave(network, freePackets);
 
 		if (!outPackeQ.Empty())
 		{
 			(outPackeQ.GetFirst())->Activate();
-			outPackeQ.Insert(actualCust);
-			actualCust->Passivate();
+			//outPackeQ.Insert(actualCust);
 		}
 	}
 	//******************************************************************************
@@ -251,7 +253,7 @@ void Cpu::requestWrite(Request *actualCust, unsigned long size)
 {
 	int amIwait;
 
-//	printf("%lu: %s - WRITE DATA \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+	printf("%lu: %s - WRITE DATA \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 
 	amIwait = 0;
 	while (1)
@@ -280,7 +282,7 @@ void Cpu::requestWrite(Request *actualCust, unsigned long size)
 	actualCust->Enter(myHardDisk->numberDisc, 1);
 
 	//zapisujeme na HDD 
-//	printf("%lu: %s - WRITE DATA - cekame\n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+	printf("%lu: %s - WRITE DATA - cekame\n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 	actualCust->Wait(myHardDisk->timeWriteHardisk(size));
 
 	//opoustim HDD a davam poustim dalsi, co cekaji na HDD
@@ -319,29 +321,32 @@ unsigned long Cpu::countrujS()
 void Cpu::leaveCpuStartNext(Request * actualCust)
 {
 
-//	printf("%lu: %s - Opoustim CPU \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+	printf("%lu: %s - Opoustim CPU \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 	actualCust->Leave(processorsPower, 1);
 
+	if(!actualCust->myApache->incomingReq.Empty() && !actualCust->myApache->mainProccessApache.Full())
+	{
+		(actualCust->myApache->incomingReq.GetFirst())->Activate();
+	}
+	
 	if (waitingProcess.Length() > 0)
 	{
 		(waitingProcess.GetFirst())->Activate();
-		waitingProcess.Insert(actualCust);
-		actualCust->Passivate();
+		//waitingProcess.Insert(actualCust);
 	}
 
 }
 
 void Cpu::leaveHddStartNext(Request * actualCust)
 {
-//	printf("%lu: %s - OPOUSTIM HDD \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+	printf("%lu: %s - OPOUSTIM HDD \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 
 	actualCust->Leave(myHardDisk->numberDisc, 1);
 
 	if (myHardDisk->waitingForHDD.Length() > 0)
 	{
 		(myHardDisk->waitingForHDD.GetFirst())->Activate();
-		myHardDisk->waitingForHDD.Insert(actualCust);
-		actualCust->Passivate();
+		//myHardDisk->waitingForHDD.Insert(actualCust);
 	}
 
 }
@@ -352,7 +357,7 @@ int Cpu::canHireHDD(Request *actualCust, int *amIwait)
 	int can = 0;
 	if (myHardDisk->numberDisc.Full())
 	{
-//		printf("%lu: %s -  neni HDD \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s -  neni HDD \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		(*amIwait)++;
 		myHardDisk->waitingForHDD.Insert(actualCust);
 		actualCust->Passivate();
@@ -362,7 +367,7 @@ int Cpu::canHireHDD(Request *actualCust, int *amIwait)
 		//pokud nekdo ceka a ja jsem necekal = dam mu prednost
 		if (!myHardDisk->waitingForHDD.Empty() && (*amIwait) == 0)
 		{
-//			printf("%lu: %s - davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+			printf("%lu: %s - davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 
 			(*amIwait)++;
 			(myHardDisk->waitingForHDD.GetFirst())->Activate();
@@ -384,7 +389,7 @@ int Cpu::canHireCpu(Request *actualCust, int *amIwait)
 	int can = 0;
 	if (processorsPower.Full())
 	{
-//		printf("%lu: %s -  neni procesor \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s -  neni procesor \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		(*amIwait)++;
 		waitingProcess.Insert(actualCust);
 		actualCust->Passivate();
@@ -394,7 +399,7 @@ int Cpu::canHireCpu(Request *actualCust, int *amIwait)
 		//pokud nekdo ceka a ja jsem necekal = dam mu prednost
 		if (!waitingProcess.Empty() && (*amIwait) == 0)
 		{
-//			printf("%lu: %s - davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+			printf("%lu: %s - davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 
 			(*amIwait)++;
 			(waitingProcess.GetFirst())->Activate();
@@ -414,7 +419,7 @@ int Cpu::canHirePacket(Request *actualCust, int *amIwait, unsigned long countPac
 	int can = 0;
 	if (network.Free() < countPacket)
 	{
-//		printf("%lu: %s - PAKETY - nejsou \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+		printf("%lu: %s - PAKETY - nejsou \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 		(*amIwait)++;
 
 		outPackeQ.Insert(actualCust);
@@ -425,7 +430,7 @@ int Cpu::canHirePacket(Request *actualCust, int *amIwait, unsigned long countPac
 		//pokud nekdo ceka a ja jsem necekal = dam mu prednost
 		if (!outPackeQ.Empty() && amIwait == 0)
 		{
-//			printf("%lu: %s - PAKETY- davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
+			printf("%lu: %s - PAKETY- davam prednost cekajicimu \n", actualCust->PID, (actualCust->typReq[actualCust->type]).c_str());
 
 			(*amIwait)++;
 			(outPackeQ.GetFirst())->Activate();
